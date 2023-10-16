@@ -5,12 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mimicry Solutions</title>
-
-    <script src="https://github.com/Mimicry-Solutions/ARTEMIS-Prototype/tree/main/jspdf"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PizZip/3.1.4/pizzip-utils.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.27.0/docxtemplater.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
     
     <!-- Link to Raleway Font from Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap">
@@ -37,6 +31,7 @@
 
         
 }
+
     
 	.info-list {
             position: absolute;
@@ -222,7 +217,6 @@
             <img src="artemis.png" alt="Scrappy MVP">
         </div>
         <div class="spinner"></div>
-
         <div class="row">
             <div class="column">
                 <label class="output-label" for="general-tox">General Toxicity</label>
@@ -286,9 +280,9 @@
     <div class="footer">&copy; 2023 All Rights Reserved </div>
 
     <div class="buttons-container">
-        <button id="generatePdfBtn" class="portal-button" onclick="generatePdfReport()">Generate PDF Report</button>
-        <button id="generateDocxBtn" class="portal-button" onclick="generateDocxReport()">Generate DOCX Report</button>
+	<button id="generateTxtBtn" class="portal-button" onclick="generateReport()">Generate Report</button>
         <a href="https://mimicry-solutions.github.io/ARTEMIS-Prototype/" class="portal-button">Return to Inputs</a>
+
     </div>
     
 </script>
@@ -431,38 +425,37 @@ function fetchData() {
     }, 3000);
 }
 
-function generateDocxReport() {
-    // Fetch the template file (assuming it's served locally)
-    fetch('"report.docx"')
-    .then(response => response.arrayBuffer())
-    .then(buffer => {
-        const zip = new PizZip(buffer);
-        const doc = new docxtemplater().loadZip(zip);
+function generateReport() {
+    const reportName = "Computational Prediction of Toxicity of ONC123"; // Hardcoded report name
+    const reportContent = `
+Report Name: ${reportName}
+Report Number: MS20231
+Company Name: OncoBio
+User Name: Jane Doe
+Date Generated: ${document.getElementById('current-date').textContent}
 
-        // Gather data from the page
-        const data = {
-            reportName: document.querySelector('.info-list li:nth-child(1)').textContent.split(': ')[1],
-            reportNumber: document.querySelector('.info-list li:nth-child(2)').textContent.split(': ')[1],
-            companyName: document.querySelector('.info-list li:nth-child(3)').textContent.split(': ')[1],
-            userName: document.querySelector('.info-list li:nth-child(4)').textContent.split(': ')[1],
-            dateGenerated: document.querySelector('.info-list li:nth-child(5) span').textContent,
-            generalTox: document.getElementById('general-tox').value,
-            // ... add other fields as needed
-        };
+\n•General Toxicity: \n${document.getElementById('general-tox').value}
+\nExposure Range: \n${document.getElementById('general-exp').value}
 
-        // Set the data for the report
-        doc.setData(data);
+\n•Liver Toxicity: \n${document.getElementById('liver-tox').value}
+\nExposure Range: \n${document.getElementById('liver-exp').value}
 
-        // Render the document
-        doc.render();
+\n•Kidney Toxicity: \n${document.getElementById('kidney-tox').value}
+\nExposure Range: \n${document.getElementById('kidney-exp').value}
 
-        // Generate the DOCX file and offer it for download
-        const output = doc.getZip().generate({ type: 'blob' });
-        saveAs(output, 'Generated_Report.docx');
-    })
-    .catch(error => {
-        console.error("Error generating DOCX report:", error);
-    });
+\n•GI Toxicity: \n${document.getElementById('GI-tox').value}
+\nExposure Range: \n${document.getElementById('GI-exp').value}
+
+\n•Cardiovascular Toxicity: \n${document.getElementById('cv-tox').value}
+\nExposure Range: \n${document.getElementById('cv-exp').value}
+    `;
+
+    // Convert content to blob and download
+    let blob = new Blob([reportContent], { type: "text/plain" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${reportName}.txt`; 
+    link.click();
 }
 
 
@@ -471,11 +464,6 @@ function generateDocxReport() {
 
 </script>
 
-
-
-
-
-    </script>
 
 
 </body>
