@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mimicry Solutions</title>
+
+    <script src=""C:\Users\dmcen\mimicry solutions\ET - General\09_Building\04_UI\node_modules\jspdf""></script>
+<script src="C:\Users\dmcen\mimicry solutions\ET - General\09_Building\04_UI\node_modules\pizzip"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PizZip/3.1.4/pizzip-utils.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.27.0/docxtemplater.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    
+    <!-- Link to Raleway Font from Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap">
+    
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            padding: 20px;
+            background-color: #FFF;
+        }
+
+        .container {
+            max-width: 800px;
+            margin:  auto;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+	    display: flex;
+   	    flex-direction: column;
+    	    justify-content: center;
+            align-items: center;
+            min-height: 100vh;  /* This ensures the container takes up at least the full height of the viewport */
+            box-sizing: border-box;
+        }
+    
+	.info-list {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            list-style-type: none;
+            padding: 0;
+	    color: #6A0058;
+	    margin-top: 50px;
+        }
+
+        .info-list li {
+            margin-bottom: 10px;
+
+	}
+
+	.info-container {
+   	 	position: absolute;
+   	 	top: -30px; /* Adjust this value as needed */
+    	 	left: 20px;
+		width: 320px; 
+
+        }
+
+        .logo img {
+            max-width: 35%;
+            height: auto;
+            margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .output-box {
+    		width: 150%;
+   		height: 70px;
+    		margin: 5px 0;
+    		border: none;
+    		padding: 0;
+    		box-sizing: border-box;
+    		background-color: white;
+    		color: #333;
+    		font-size: 18px;
+		resize: none;
+        }
+
+	.row {
+    	margin-bottom: -20px; /* Adjust this value to increase/decrease spacing between each row */
+	}
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            margin: 10px auto;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #6A0058;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .footer, .logo-img {
+            position: fixed;
+            right: 10px;
+            text-align: right;
+            width: auto;
+        }
+
+        .footer {
+            bottom: 10px;
+        }
+
+        .logo-img img {
+            width: 200px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .logo-img {
+            bottom: 40px;
+        }
+
+        .portal-button {
+            display: block;
+            width: calc(100% - 30px);
+            padding: 15px;
+            background-color: #28e3da;
+            color: #0B0B0B;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            margin: 20px auto;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .portal-button:hover {
+            background-color: #4f003f;
+	    color: white;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .column {
+  		flex: 1; /* Adjusted flex property */
+   		padding: 0px;
+    		margin-left: 70px; /* Added margin to the left */
+    		margin-right: 70px; /* Added margin to the right */
+        }
+
+        .output-label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+	    color: #FD6262;
+            width: 100%;
+        }
+    </style>
+ <script>
+        // JavaScript to set the current date
+        window.onload = function () {
+            const currentDateElement = document.getElementById('current-date');
+            const currentDate = new Date();
+            const options = { 
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+            };
+            currentDateElement.textContent = currentDate.toLocaleDateString(undefined, options);
+        };
+    </script>
+
+</head>
+
+<body>
+
+	<div class="info-container">
+    	<ul class="info-list">
+        	<li><strong>Report Name:</strong> Computational Prediction of Toxicity of ONC123 in the Rat</li>
+        	<li><strong>Report Number:</strong> MS20231</li>
+        	<li><strong>Company Name:</strong> OncoBio</li>
+        	<li><strong>User Name:</strong> Jane Doe</li>
+        	<li><strong>Date Generated:</strong> <span id="current-date"></span></li>
+    	</ul>
+	</div>
+
+    <div class="container">
+        <div class="logo">
+            <img src="artemis.png" alt="Scrappy MVP">
+        </div>
+        <div class="spinner"></div>
+
+        <div class="row">
+            <div class="column">
+                <label class="output-label" for="general-tox">General Toxicity</label>
+                <textarea class="output-box" id="general-tox" placeholder="Analyzing general toxicity..." readonly></textarea>
+            </div>
+            <div class="column">
+                <label class="output-label" for="general-exp">Exposure Range</label>
+                <textarea class="output-box" id="general-exp" placeholder="Analyzing exposure range..." readonly></textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <label class="output-label" for="liver-tox">Liver Toxicity</label>
+                <textarea class="output-box" id="liver-tox" placeholder="Analyzing liver toxicity..." readonly></textarea>
+            </div>
+            <div class="column">
+                <label class="output-label" for="liver-exp">Exposure Range</label>
+                <textarea class="output-box" id="liver-exp" placeholder="Analyzing exposure range..." readonly></textarea>
+            </div>
+        </div>
+
+ <div class="row">
+            <div class="column">
+                <label class="output-label" for="kidney-tox">Kidney Toxicity</label>
+                <textarea class="output-box" id="kidney-tox" placeholder="Analyzing kidney toxicity..." readonly></textarea>
+            </div>
+            <div class="column">
+                <label class="output-label" for="kidney-exp">Exposure Range</label>
+                <textarea class="output-box" id="kidney-exp" placeholder="Analyzing exposure range..." readonly></textarea>
+            </div>
+        </div>
+
+ <div class="row">
+            <div class="column">
+                <label class="output-label" for="GI-tox">GI Toxicity</label>
+                <textarea class="output-box" id="GI-tox" placeholder="Analyzing GI toxicity..." readonly></textarea>
+            </div>
+            <div class="column">
+                <label class="output-label" for="GI-exp">Exposure Range</label>
+                <textarea class="output-box" id="GI-exp" placeholder="Analyzing exposure range..." readonly></textarea>
+            </div>
+        </div>
+
+ <div class="row">
+            <div class="column">
+                <label class="output-label" for="cv-tox">Cardiovascular Toxicity</label>
+                <textarea class="output-box" id="cv-tox" placeholder="Analyzing cardiovascular toxicity..." readonly></textarea>
+            </div>
+            <div class="column">
+                <label class="output-label" for="cv-exp">Exposure Range</label>
+                <textarea class="output-box" id="cv-exp" placeholder="Analyzing exposure range..." readonly></textarea>
+            </div>
+        </div>
+
+ <div class="row">
+            <div class="column">
+                <label class="output-label" for="immune-tox">Immune Toxicity</label>
+                <textarea class="output-box" id="immune-tox" placeholder="Analyzing immune toxicity..." readonly></textarea>
+            </div>
+            <div class="column">
+                <label class="output-label" for="immune-exp">Exposure Range</label>
+                <textarea class="output-box" id="immune-exp" placeholder="Analyzing exposure range..." readonly></textarea>
+            </div>
+        </div>
+
+ <div class="row">
+            <div class="column">
+                <label class="output-label" for="dermal-tox">Dermal Toxicity</label>
+                <textarea class="output-box" id="dermal-tox" placeholder="Analyzing dermal toxicity..." readonly></textarea>
+            </div>
+            <div class="column">
+                <label class="output-label" for="dermal-exp">Exposure Range</label>
+                <textarea class="output-box" id="dermal-exp" placeholder="Analyzing exposure range..." readonly></textarea>
+            </div>
+        </div>
+
+<div class="row">
+            <div class="column">
+                <label class="output-label" for="repro-tox">Reproductive Toxicity</label>
+                <textarea class="output-box" id="repro-tox" placeholder="Analyzing reproductive toxicity..." readonly></textarea>
+            </div>
+            <div class="column">
+                <label class="output-label" for="repro-exp">Exposure Range</label>
+                <textarea class="output-box" id="repro-exp" placeholder="Analyzing exposure range..." readonly></textarea>
+            </div>
+        </div>
+
+    <button id="generatePdfBtn" class="portal-button" onclick="generatePdfReport()">Generate PDF Report</button>
+    <button id="generateDocxBtn" class="portal-button" onclick="generateDocxReport()">Generate DOCX Report</button>
+    <a href="https://mimicry-solutions.github.io/ARTEMIS-portal/" class="portal-button">Return to Inputs</a>
+    </div>
+
+    <div class="logo-img">
+        <img src="logo.png" alt="Company Logo">
+    </div>
+
+    <div class="footer">&copy; 2023 All Rights Reserved </div>
+
+
+    
+</script>
+
+<script>
+
+function fetchData() {
+        const spinner = document.querySelector('.spinner');
+        const generalTox = document.querySelector('#general-tox');
+        const generalExp = document.querySelector('#general-exp');
+        const liverTox = document.querySelector('#liver-tox');
+        const liverExp = document.querySelector('#liver-exp');
+        const kidneyTox = document.querySelector('#kidney-tox');
+        const kidneyExp = document.querySelector('#kidney-exp');
+        const GITox = document.querySelector('#GI-tox');
+        const GIExp = document.querySelector('#GI-exp');
+        const cvTox = document.querySelector('#cv-tox');
+        const cvExp = document.querySelector('#cv-exp');
+        const immuneTox = document.querySelector('#immune-tox');
+        const immuneExp = document.querySelector('#immune-exp');
+        const dermalTox = document.querySelector('#dermal-tox');
+        const dermalExp = document.querySelector('#dermal-exp');
+        const reproTox = document.querySelector('#repro-tox');
+        const reproExp = document.querySelector('#repro-exp');
+
+        setTimeout(function() {
+            spinner.style.display = 'none';
+            generalTox.value = "Decreased bodyweight\nDecreased food consumption";
+            generalExp.value = "267,000 - 323,000 ng/mL";
+            liverTox.value = "Increased ALT\nIncreased AST";
+            liverExp.value = "267,000 - 323,000 ng/mL";
+            kidneyTox.value = "None";
+            kidneyExp.value = "NA";
+            GITox.value = "None";
+            GIExp.value = "NA";
+            cvTox.value = "None";
+            cvExp.value = "NA";
+            immuneTox.value = "None";
+            immuneExp.value = "NA";
+            dermalTox.value = "None";
+            dermalExp.value = "NA";
+            reproTox.value = "None";
+            reproExp.value = "NA";
+
+        }, 3000);
+    }
+
+    fetchData();
+    
+
+</script>
+
+
+
+
+<script>
+        function generatePdfReport() {
+            const element = document.body;
+            const opt = {
+                margin: [10, 10, 10, 10], // top, right, bottom, left
+                filename: 'Mimicry-Solutions-Report.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        }
+
+        function generateDocxReport() {
+
+    PizzipUtils.getBinaryContent('"C:\Users\dmcen\mimicry solutions\ET - General\09_Building\04_UI\report.docx"', function(error, content) {
+        if (error) { 
+            console.error(error);
+            return;
+        }
+
+        // Create a new doc from the loaded template
+        const zip = new Pizzip(content);
+        const doc = new window.docxtemplater().loadZip(zip);
+
+        // Set the data for the tags
+        doc.setData({
+            report_name: "Computational Prediction of Toxicity of ONC123 in the Rat",
+            report_number: "MS20231",
+            general_tox: document.querySelector('#general-tox').value,
+            // ... add the other fields similarly
+        });
+
+        // Apply the data to the template
+        doc.render();
+
+        // Generate the output and provide it as a download link
+        const out = doc.getZip().generate({ type: 'blob' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(out);
+        link.download = 'report.docx';
+        link.click();
+	const blob = doc.getZip().generate({ type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+saveAs(blob, "generated_report.docx");
+
+    });
+}
+
+</script>
+        }
+    </script>
+
+<script>
+
+function generatePdf() {
+    let doc = new jsPDF();
+    doc.text(20, 20, 'Mimicry Solutions Report');
+    
+    let yOffset = 30; // initial vertical offset
+    document.querySelectorAll('.output-box').forEach((box) => {
+        doc.text(20, yOffset, box.previousElementSibling.innerText + ":"); // Add the label text
+        yOffset += 10;
+        doc.text(20, yOffset, box.value); // Add the textarea content
+        yOffset += 10;
+    });
+    
+    doc.save('report.pdf');
+}
+
+document.getElementById('generatePdfBtn').addEventListener('click', generatePdf);
+
+</script>
+
+
+</body>
+</html>
+

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mimicry Solutions</title>
+    
+    <!-- Link to Raleway Font from Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap">
+    
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .logo img {
+            max-width: 75%;
+            height: auto;
+            margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        select,
+        input,
+        button {
+            width: 100%;
+            padding: 15px;
+            margin: 20px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        select {
+            color: #a9a9a9;
+        }
+
+        #smile-input::placeholder {
+            color: #a9a9a9;
+        }
+
+        button {
+            background-color: #28e3da;
+            color: #0B0B0B;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #4f003f;
+	    color: white;
+
+	}
+
+        .footer, .logo-img {
+            position: fixed;
+            right: 10px;
+            text-align: right;
+            width: auto;
+        }
+
+        .footer {
+            bottom: 10px;
+        }
+
+        .logo-img img {
+            width: 250px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .logo-img {
+            bottom: 40px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="artemis.png" alt="Scrappy MVP">
+        </div>
+        <label for="molecule-upload">Upload chemical structure:</label>
+        <input type="file" accept=".JSON" id="molecule-upload" name="molecule-upload">
+        <label for="smile-input">Or enter SMILE String:</label>
+        <input type="text" id="smile-input" name="smile-input" placeholder="Enter SMILE String here">
+
+        <label for="species">Species:</label>
+        <select id="species" name="species">
+    <option value="" disabled selected>Choose from dropdown</option>
+            <option value="Mouse">Mouse</option>
+            <option value="Rat">Rat</option>
+            <option value="Dog">Dog</option>
+            <option value="Monkey">Monkey</option>
+            <option value="Rabbit">Rabbit</option>
+            <option value="Minipig">Minipig</option>
+        </select>
+
+        <label for="route">Route:</label>
+        <select id="route" name="route">
+    <option value="" disabled selected>Choose from dropdown</option>
+            <option value="OG">Oral Gavage (OG)</option>
+            <option value="IV">Intravenous (IV)</option>
+            <option value="SC">Subcutaneous (SC)</option>
+            <option value="IM">Intramuscular (IM)</option>
+            <option value="IP">Intraperitoneal (IP)</option>
+        </select>
+
+        <button id="run-btn">Run</button>
+    </div>
+
+    <div class="logo-img">
+        <img src="logo.png" alt="Company Logo">
+    </div>
+    <div class="footer">&copy; 2023 All Rights Reserved </div>
+
+    <script>
+        document.getElementById('run-btn').addEventListener('click', function() {
+            window.location.href = 'PrototypeOutput.html';
+        });
+    </script>
+</body>
+
+</html>
