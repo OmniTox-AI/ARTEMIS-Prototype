@@ -26,16 +26,16 @@
         .container {
             max-width: 800px;
             margin:  auto;
-            padding: 5px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 0px;
 	    display: flex;
    	    flex-direction: column;
     	    justify-content: center;
             align-items: center;
-            min-height: 100vh;  /* This ensures the container takes up at least the full height of the viewport */
-	    padding: 5px 5px 20px 5px;
+            min-height: 100vh; 
             box-sizing: border-box;
+    	    padding: 20px 20px 0px 20px;  /* top, right, bottom, left */
+
         
 }
     
@@ -65,7 +65,8 @@
         .logo img {
             max-width: 35%;
             height: auto;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+	    margin-top: -80px;
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -278,39 +279,6 @@
             </div>
         </div>
 
- <div class="row">
-            <div class="column">
-                <label class="output-label" for="immune-tox">Immune Toxicity</label>
-                <textarea class="output-box" id="immune-tox" placeholder="Analyzing immune toxicity..." readonly></textarea>
-            </div>
-            <div class="column">
-                <label class="output-label" for="immune-exp">Exposure Range</label>
-                <textarea class="output-box" id="immune-exp" placeholder="Analyzing exposure range..." readonly></textarea>
-            </div>
-        </div>
-
- <div class="row">
-            <div class="column">
-                <label class="output-label" for="dermal-tox">Dermal Toxicity</label>
-                <textarea class="output-box" id="dermal-tox" placeholder="Analyzing dermal toxicity..." readonly></textarea>
-            </div>
-            <div class="column">
-                <label class="output-label" for="dermal-exp">Exposure Range</label>
-                <textarea class="output-box" id="dermal-exp" placeholder="Analyzing exposure range..." readonly></textarea>
-            </div>
-        </div>
-
-<div class="row">
-            <div class="column">
-                <label class="output-label" for="repro-tox">Reproductive Toxicity</label>
-                <textarea class="output-box" id="repro-tox" placeholder="Analyzing reproductive toxicity..." readonly></textarea>
-            </div>
-            <div class="column">
-                <label class="output-label" for="repro-exp">Exposure Range</label>
-                <textarea class="output-box" id="repro-exp" placeholder="Analyzing exposure range..." readonly></textarea>
-            </div>
-        </div>
-
 
     <div class="logo-img">
         <img src="logo.png" alt="Company Logo">
@@ -328,46 +296,141 @@
 
 <script>
 
-function fetchData() {
-        const spinner = document.querySelector('.spinner');
-        const generalTox = document.querySelector('#general-tox');
-        const generalExp = document.querySelector('#general-exp');
-        const liverTox = document.querySelector('#liver-tox');
-        const liverExp = document.querySelector('#liver-exp');
-        const kidneyTox = document.querySelector('#kidney-tox');
-        const kidneyExp = document.querySelector('#kidney-exp');
-        const GITox = document.querySelector('#GI-tox');
-        const GIExp = document.querySelector('#GI-exp');
-        const cvTox = document.querySelector('#cv-tox');
-        const cvExp = document.querySelector('#cv-exp');
-        const immuneTox = document.querySelector('#immune-tox');
-        const immuneExp = document.querySelector('#immune-exp');
-        const dermalTox = document.querySelector('#dermal-tox');
-        const dermalExp = document.querySelector('#dermal-exp');
-        const reproTox = document.querySelector('#repro-tox');
-        const reproExp = document.querySelector('#repro-exp');
 
-        setTimeout(function() {
-            spinner.style.display = 'none';
-            generalTox.value = "Decreased bodyweight\nDecreased food consumption";
-            generalExp.value = "267,000 - 323,000 ng/mL";
-            liverTox.value = "Increased ALT\nIncreased AST";
-            liverExp.value = "267,000 - 323,000 ng/mL";
-            kidneyTox.value = "None";
-            kidneyExp.value = "NA";
-            GITox.value = "None";
-            GIExp.value = "NA";
-            cvTox.value = "None";
-            cvExp.value = "NA";
-            immuneTox.value = "None";
-            immuneExp.value = "NA";
-            dermalTox.value = "None";
-            dermalExp.value = "NA";
-            reproTox.value = "None";
-            reproExp.value = "NA";
-
-        }, 3000);
+const spinner = document.querySelector('.spinner');
+const generalOutputs = [
+    {
+        tox: "Decreased bodyweight\nDecreased food consumption",
+        exp: "267,000 - 323,000 ng/mL"
+    },
+    {
+        tox: "Decreased bodyweight\nPiloerection\nLethargy",
+        exp: "200,000 - 250,000 ng/mL"
+    },
+    {
+        tox: "Eye discharge\nDecreased activity",
+        exp: "144,000 - 167,000 ng/mL"
+    },
+    {
+        tox: "None",
+        exp: "NA" 
     }
+];     
+const liverOutputs = [
+    {
+        tox: "Increased ALT\nIncreased AST",
+        exp: "267,000 - 323,000 ng/mL"
+    },
+    {
+        tox: "Enlarged liver\nLiver weight increased\nIncreased ALP",
+        exp: "200,000 - 250,000 ng/mL"
+    },
+    {
+        tox: "Increased ALT\nIncreased BILI\nIncreased ALB",
+        exp: "144,000 - 167,000 ng/mL"
+    },
+    {
+        tox: "None",
+        exp: "NA" 
+    }     
+]; 
+const kidneyOutputs = [
+    {
+        tox: "Increased PROT\nIncreased ALB",
+        exp: "267,000 - 323,000 ng/mL"
+    },
+    {
+        tox: "Enlarged kidney\nKidney weight increased\nIncreased CREAT",
+        exp: "200,000 - 250,000 ng/mL"
+    },
+    {
+        tox: "Increased PROT\nIncreased CREAT\nTubule degeneration, mild",
+        exp: "144,000 - 167,000 ng/mL"
+    },
+    {
+        tox: "None",
+        exp: "NA" 
+    }       
+];       
+const GIOutputs = [
+    {
+        tox: "Small intestine, inflammation, minimal",
+        exp: "267,000 - 323,000 ng/mL"
+    },
+    {
+        tox: "Stomach, edema, mild\nStomach, distended",
+        exp: "200,000 - 250,000 ng/mL"
+    },
+    {
+        tox: "Large intestine, dark red\nLarge intestine, inflammation",
+        exp: "144,000 - 167,000 ng/mL"
+    },
+    {
+        tox: "None",
+        exp: "NA" 
+    }        
+];       
+const cvOutputs = [
+    {
+        tox: "Heart, myocardium, inflammation, moderate\nHeart, enlarged",
+        exp: "267,000 - 323,000 ng/mL"
+    },
+    {
+        tox: "Heart, small\nHeart weight increased",
+        exp: "200,000 - 250,000 ng/mL"
+    },
+    {
+        tox: "Heart rate increased, mild\nQT wave prolongation, mild",
+        exp: "144,000 - 167,000 ng/mL"
+    },
+    {
+        tox: "None",
+        exp: "NA" 
+    }          
+];  
+
+function getRandomPairFromArray(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+function fetchData() {
+    const spinner = document.querySelector('.spinner');
+    const generalTox = document.querySelector('#general-tox');
+    const generalExp = document.querySelector('#general-exp');
+    const liverTox = document.querySelector('#liver-tox');
+    const liverExp = document.querySelector('#liver-exp');
+    const kidneyTox = document.querySelector('#kidney-tox');
+    const kidneyExp = document.querySelector('#kidney-exp');
+    const GITox = document.querySelector('#GI-tox');
+    const GIExp = document.querySelector('#GI-exp');
+    const cvTox = document.querySelector('#cv-tox');
+    const cvExp = document.querySelector('#cv-exp');
+
+       setTimeout(function() {
+        spinner.style.display = 'none';
+
+        let generalPair = getRandomPairFromArray(generalOutputs);
+        generalTox.value = generalPair.tox;
+        generalExp.value = generalPair.exp;
+        
+        let liverPair = getRandomPairFromArray(liverOutputs);
+        liverTox.value = liverPair.tox;
+        liverExp.value = liverPair.exp;
+
+        let kidneyPair = getRandomPairFromArray(kidneyOutputs);
+        kidneyTox.value = kidneyPair.tox;
+        kidneyExp.value = kidneyPair.exp;
+
+        let GIPair = getRandomPairFromArray(GIOutputs);
+        GITox.value = GIPair.tox;
+        GIExp.value = GIPair.exp;
+
+        let cvPair = getRandomPairFromArray(cvOutputs);
+        cvTox.value = cvPair.tox;
+        cvExp.value = cvPair.exp;
+        
+    }, 3000);
+}
 
     fetchData();
     
