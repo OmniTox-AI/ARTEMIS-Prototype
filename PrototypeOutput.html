@@ -432,6 +432,41 @@ function fetchData() {
     }, 3000);
 }
 
+function generateDocxReport() {
+    // Fetch the template file (assuming it's served locally)
+    fetch('"report.docx"')
+    .then(response => response.arrayBuffer())
+    .then(buffer => {
+        const zip = new PizZip(buffer);
+        const doc = new docxtemplater().loadZip(zip);
+
+        // Gather data from the page
+        const data = {
+            reportName: document.querySelector('.info-list li:nth-child(1)').textContent.split(': ')[1],
+            reportNumber: document.querySelector('.info-list li:nth-child(2)').textContent.split(': ')[1],
+            companyName: document.querySelector('.info-list li:nth-child(3)').textContent.split(': ')[1],
+            userName: document.querySelector('.info-list li:nth-child(4)').textContent.split(': ')[1],
+            dateGenerated: document.querySelector('.info-list li:nth-child(5) span').textContent,
+            generalTox: document.getElementById('general-tox').value,
+            // ... add other fields as needed
+        };
+
+        // Set the data for the report
+        doc.setData(data);
+
+        // Render the document
+        doc.render();
+
+        // Generate the DOCX file and offer it for download
+        const output = doc.getZip().generate({ type: 'blob' });
+        saveAs(output, 'Generated_Report.docx');
+    })
+    .catch(error => {
+        console.error("Error generating DOCX report:", error);
+    });
+}
+
+
     fetchData();
     
 
@@ -440,79 +475,8 @@ function fetchData() {
 
 
 
-<script>
-        function generatePdfReport() {
-            const element = document.body;
-            const opt = {
-                margin: [10, 10, 10, 10], // top, right, bottom, left
-                filename: 'Mimicry-Solutions-Report.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
 
-            html2pdf().set(opt).from(element).save();
-        }
-
-        function generateDocxReport() {
-
-    PizzipUtils.getBinaryContent('"C:\Users\dmcen\mimicry solutions\ET - General\09_Building\04_UI\report.docx"', function(error, content) {
-        if (error) { 
-            console.error(error);
-            return;
-        }
-
-        // Create a new doc from the loaded template
-        const zip = new Pizzip(content);
-        const doc = new window.docxtemplater().loadZip(zip);
-
-        // Set the data for the tags
-        doc.setData({
-            report_name: "Computational Prediction of Toxicity of ONC123",
-            report_number: "MS20231",
-            general_tox: document.querySelector('#general-tox').value,
-            // ... add the other fields similarly
-        });
-
-        // Apply the data to the template
-        doc.render();
-
-        // Generate the output and provide it as a download link
-        const out = doc.getZip().generate({ type: 'blob' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(out);
-        link.download = 'report.docx';
-        link.click();
-	const blob = doc.getZip().generate({ type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
-saveAs(blob, "generated_report.docx");
-
-    });
-}
-
-</script>
-        
     </script>
-
-<script>
-
-function generatePdf() {
-    let doc = new jsPDF();
-    doc.text(20, 20, 'Mimicry Solutions Report');
-    
-    let yOffset = 30; // initial vertical offset
-    document.querySelectorAll('.output-box').forEach((box) => {
-        doc.text(20, yOffset, box.previousElementSibling.innerText + ":"); // Add the label text
-        yOffset += 10;
-        doc.text(20, yOffset, box.value); // Add the textarea content
-        yOffset += 10;
-    });
-    
-    doc.save('report.pdf');
-}
-
-document.getElementById('generatePdfBtn').addEventListener('click', generatePdf);
-
-</script>
 
 
 </body>
