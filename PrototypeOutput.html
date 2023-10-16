@@ -34,8 +34,10 @@
     	    justify-content: center;
             align-items: center;
             min-height: 100vh;  /* This ensures the container takes up at least the full height of the viewport */
+	    padding: 5px 5px 20px 5px;
             box-sizing: border-box;
-        }
+        
+}
     
 	.info-list {
             position: absolute;
@@ -71,7 +73,7 @@
 
         .output-box {
     		width: 150%;
-   		height: 70px;
+   		height: 65px;
     		margin: 5px 0;
     		border: none;
     		padding: 0;
@@ -84,7 +86,8 @@
 
 	.row {
     	margin-bottom: -20px; /* Adjust this value to increase/decrease spacing between each row */
-	}
+	
+}
 
         .spinner {
             width: 20px;
@@ -146,6 +149,23 @@
         .portal-button:hover {
             background-color: #4f003f;
 	    color: white;
+
+	}
+
+    .buttons-container {
+        position: absolute;
+        top: 40px;
+        right: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;  /* This ensures a gap between the buttons */
+    	
+	}
+
+    .portal-button {
+ 	width: 250px;
+        margin: 0;  /* Reset the margin */
+    
         }
 
         .row {
@@ -291,10 +311,6 @@
             </div>
         </div>
 
-    <button id="generatePdfBtn" class="portal-button" onclick="generatePdfReport()">Generate PDF Report</button>
-    <button id="generateDocxBtn" class="portal-button" onclick="generateDocxReport()">Generate DOCX Report</button>
-    <a href="https://mimicry-solutions.github.io/ARTEMIS-Prototype/" class="portal-button">Return to Inputs</a>
-    </div>
 
     <div class="logo-img">
         <img src="logo.png" alt="Company Logo">
@@ -302,7 +318,11 @@
 
     <div class="footer">&copy; 2023 All Rights Reserved </div>
 
-
+    <div class="buttons-container">
+        <button id="generatePdfBtn" class="portal-button" onclick="generatePdfReport()">Generate PDF Report</button>
+        <button id="generateDocxBtn" class="portal-button" onclick="generateDocxReport()">Generate DOCX Report</button>
+        <a href="https://mimicry-solutions.github.io/ARTEMIS-Prototype/" class="portal-button">Return to Inputs</a>
+    </div>
     
 </script>
 
@@ -407,7 +427,7 @@ saveAs(blob, "generated_report.docx");
 }
 
 </script>
-        }
+        
     </script>
 
 <script>
@@ -434,4 +454,3 @@ document.getElementById('generatePdfBtn').addEventListener('click', generatePdf)
 
 </body>
 </html>
-
