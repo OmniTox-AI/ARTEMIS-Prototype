@@ -94,31 +94,8 @@
         <div class="logo">
             <img src="artemis.png" alt="Scrappy MVP">
         </div>
-        <label for="molecule-upload">Upload chemical structure:</label>
-        <input type="file" accept=".JSON" id="molecule-upload" name="molecule-upload">
-        <label for="smile-input">Or enter SMILE String:</label>
-        <input type="text" id="smile-input" name="smile-input" placeholder="Enter SMILE String here">
-
-        <label for="species">Species:</label>
-        <select id="species" name="species">
-    <option value="" disabled selected>Choose from dropdown</option>
-            <option value="Mouse">Mouse</option>
-            <option value="Rat">Rat</option>
-            <option value="Dog">Dog</option>
-            <option value="Monkey">Monkey</option>
-            <option value="Rabbit">Rabbit</option>
-            <option value="Minipig">Minipig</option>
-        </select>
-
-        <label for="route">Route:</label>
-        <select id="route" name="route">
-    <option value="" disabled selected>Choose from dropdown</option>
-            <option value="OG">Oral Gavage (OG)</option>
-            <option value="IV">Intravenous (IV)</option>
-            <option value="SC">Subcutaneous (SC)</option>
-            <option value="IM">Intramuscular (IM)</option>
-            <option value="IP">Intraperitoneal (IP)</option>
-        </select>
+        <label for="molecule-upload">Upload nonclinical toxicology draft report:</label>
+        <input type="file" accept=".PDF" id="report-upload" name="report-upload">
 
         <button id="run-btn">Run</button>
     </div>
