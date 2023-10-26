@@ -24,7 +24,7 @@
 	    display: flex;
    	    flex-direction: column;
     	    justify-content: center;
-            align-items: center;
+            align-items: left;
             min-height: 100vh; 
             box-sizing: border-box;
     	    padding: 20px 20px 0px 20px;  /* top, right, bottom, left */
@@ -60,16 +60,17 @@
             max-width: 35%;
             height: auto;
             margin-bottom: 10px;
-	    margin-top: -80px;
+	    margin-top: -30px;
             display: block;
             margin-left: auto;
             margin-right: auto;
         }
 
         .output-box {
-    		width: 150%;
+    		width: 100%;
    		height: 65px;
-    		margin: 5px 0;
+    		margin: 5px;
+		margin-bottom: 20px;
     		border: none;
     		padding: 0;
     		box-sizing: border-box;
@@ -77,6 +78,7 @@
     		color: #333;
     		font-size: 18px;
 		resize: none;
+   		text-align: left; /* Add this line */
         }
 
 	.row {
@@ -157,6 +159,18 @@
     	
 	}
 
+.output-label.header-study {
+    color: #FD6262; /* Or use a specific shade of red you prefer */
+}
+
+.output-label.header-artemis {
+    color: #6A0058; /* Or use a specific shade of blue you prefer */
+}
+
+.output-label.header-comparator {
+    color: #1FC2C2; /* Or use a specific shade of purple you prefer */
+}
+
     .portal-button {
  	width: 250px;
         margin: 0;  /* Reset the margin */
@@ -185,7 +199,9 @@
         }
     </style>
  <script>
-        // JavaScript to set the current date
+
+
+// JavaScript to set the current date
         window.onload = function () {
             const currentDateElement = document.getElementById('current-date');
             const currentDate = new Date();
@@ -195,8 +211,18 @@
                 year: 'numeric',
             };
             currentDateElement.textContent = currentDate.toLocaleDateString(undefined, options);
-        };
-    </script>
+
+        document.querySelectorAll('.output-box').forEach((textarea) => {
+            adjustTextareaHeight(textarea);
+        });
+    };
+    // Event listener for input event on each textarea
+    document.addEventListener('input', function (event) {
+        if (event.target.classList.contains('output-box')) {
+            adjustTextareaHeight(event.target);
+        }
+    });
+</script>
 
 </head>
 
@@ -204,9 +230,9 @@
 
 	<div class="info-container">
     	<ul class="info-list">
-        	<li><strong>Report Name:</strong> Computational Prediction of Toxicity of ONC123</li>
+        	<li><strong>Report Name:</strong> 28-day Repeat Dose Study of ONC123 by Oral Gavage in Rats</li>
         	<li><strong>Report Number:</strong> MS20231</li>
-        	<li><strong>Company Name:</strong> OncoBio</li>
+        	<li><strong>Sponsor Name:</strong> OncoBio</li>
         	<li><strong>User Name:</strong> Jane Doe</li>
         	<li><strong>Date Generated:</strong> <span id="current-date"></span></li>
     	</ul>
@@ -217,59 +243,50 @@
             <img src="artemis.png" alt="Scrappy MVP">
         </div>
         <div class="spinner"></div>
-        <div class="row">
-            <div class="column">
-                <label class="output-label" for="general-tox">General Toxicity</label>
-                <textarea class="output-box" id="general-tox" placeholder="Analyzing general toxicity..." readonly></textarea>
-            </div>
-            <div class="column">
-                <label class="output-label" for="general-exp">Exposure Range</label>
-                <textarea class="output-box" id="general-exp" placeholder="Analyzing exposure range..." readonly></textarea>
-            </div>
-        </div>
 
         <div class="row">
             <div class="column">
-                <label class="output-label" for="liver-tox">Liver Toxicity</label>
-                <textarea class="output-box" id="liver-tox" placeholder="Analyzing liver toxicity..." readonly></textarea>
-            </div>
+                <label class="output-label header-study">Study TA-related Effects</label>
+                <textarea class="output-box" id="studyTare" placeholder="Gathering test article-related effects from the study report..." readonly></textarea>
+           
+ </div>
+
+        </div>
+
+        <div class="row">
             <div class="column">
-                <label class="output-label" for="liver-exp">Exposure Range</label>
-                <textarea class="output-box" id="liver-exp" placeholder="Analyzing exposure range..." readonly></textarea>
-            </div>
+                <label class="output-label header-study">Study Adverse Effects</label>
+                <textarea class="output-box" id="studyAEs" placeholder="Gathering adverse effects from the study report..." readonly></textarea>
+          
+  </div>
+
         </div>
 
  <div class="row">
             <div class="column">
-                <label class="output-label" for="kidney-tox">Kidney Toxicity</label>
-                <textarea class="output-box" id="kidney-tox" placeholder="Analyzing kidney toxicity..." readonly></textarea>
-            </div>
-            <div class="column">
-                <label class="output-label" for="kidney-exp">Exposure Range</label>
-                <textarea class="output-box" id="kidney-exp" placeholder="Analyzing exposure range..." readonly></textarea>
-            </div>
+                <label class="output-label header-artemis">ARTEMIS™ TA-related Effects</label>
+                <textarea class="output-box" id="artemisTare" placeholder="Analyzing test article-related effects..." readonly></textarea>
+         
+   </div>
+
         </div>
 
  <div class="row">
             <div class="column">
-                <label class="output-label" for="GI-tox">GI Toxicity</label>
-                <textarea class="output-box" id="GI-tox" placeholder="Analyzing GI toxicity..." readonly></textarea>
-            </div>
-            <div class="column">
-                <label class="output-label" for="GI-exp">Exposure Range</label>
-                <textarea class="output-box" id="GI-exp" placeholder="Analyzing exposure range..." readonly></textarea>
-            </div>
+                <label class="output-label header-artemis">ARTEMIS™ Adverse Effects</label>
+                <textarea class="output-box" id="artemisAEs" placeholder="Analyzing adverse effects..." readonly></textarea>
+           
+ </div>
+
         </div>
 
  <div class="row">
             <div class="column">
-                <label class="output-label" for="cv-tox">Cardiovascular Toxicity</label>
-                <textarea class="output-box" id="cv-tox" placeholder="Analyzing cardiovascular toxicity..." readonly></textarea>
-            </div>
-            <div class="column">
-                <label class="output-label" for="cv-exp">Exposure Range</label>
-                <textarea class="output-box" id="cv-exp" placeholder="Analyzing exposure range..." readonly></textarea>
-            </div>
+                <label class="output-label header-comparator">Study-to-ARTEMIS™ Comparator</label>
+                <textarea class="output-box" id="comparator" placeholder="Analyzing accuracy of the study..." readonly></textarea>
+           
+ </div>
+
         </div>
 
 
@@ -280,8 +297,8 @@
     <div class="footer">&copy; 2023 All Rights Reserved </div>
 
     <div class="buttons-container">
-	<button id="generateTxtBtn" class="portal-button" onclick="generateReport()">Generate Report</button>
-        <a href="https://mimicry-solutions.github.io/ARTEMIS-Prototype/" class="portal-button">Return to Inputs</a>
+	<button id="generateTxtBtn" class="portal-button" onclick="generateReport()">Generate ARTEMIS™ Report</button>
+        <a href="https://mimicry-solutions.github.io/ARTEMIS-Prototype/" class="portal-button">Return Home</a>
 
     </div>
     
@@ -291,95 +308,31 @@
 
 
 const spinner = document.querySelector('.spinner');
-const generalOutputs = [
-    {
-        tox: "Decreased bodyweight\nDecreased food consumption",
-        exp: "1670 - 2230 h*ng/mL"
-    },
-    {
-        tox: "Decreased bodyweight\nPiloerection\nLethargy",
-        exp: "876 - 983 h*ng/mL"
-    },
-    {
-        tox: "Eye discharge\nDecreased activity",
-        exp: "243 - 364 h*ng/mL"
-    },
-    {
-        tox: "None",
-        exp: "NA" 
-    }
+const studyTareOutputs = [
+    {studyTare: "Decreased bodyweight\nDecreased food consumption\nIncreased ALT\nIncreased AST\nIncreased PROT\nIncreased ALB\nSmall intestine, inflammation, minimal"},
+    {studyTare: "Eye discharge\nDecreased activity\nHeart, myocardium, inflammation, moderate\nHeart, enlarged"},
+    {studyTare: "None"}
 ];     
-const liverOutputs = [
-    {
-        tox: "Increased ALT\nIncreased AST",
-        exp: "1670 - 2230 h*ng/mL"
-    },
-    {
-        tox: "Enlarged liver\nLiver weight increased\nIncreased ALP",
-        exp: "876 - 983 h*ng/mL"
-    },
-    {
-        tox: "Increased ALP\nIncreased BILI\nDecreased ALB",
-        exp: "243 - 364 h*ng/mL"
-    },
-    {
-        tox: "None",
-        exp: "NA" 
-    }     
+const studyAEsOutputs = [
+    {studyAEs: "Increased ALT\nIncreased AST"},
+    {studyAEs: "Decreased bodyweight\nPiloerection\nLethargy"},
+    {studyAEs: "Enlarged liver\nLiver weight increased\nIncreased ALP\nIncreased PROT\nDecreased CREAT\nTubule degeneration, mild\nLarge intestine, dark red\nLarge intestine, inflammation\nHeart rate increased, mild\nQT prolongation, mild"},
+    {studyAEs: "None"}     
 ]; 
-const kidneyOutputs = [
-    {
-        tox: "Increased PROT\nIncreased ALB",
-        exp: "1670 - 2230 h*ng/mL"
-    },
-    {
-        tox: "Enlarged kidney\nKidney weight increased\nDecreased CREAT",
-        exp: "876 - 983 h*ng/mL"
-    },
-    {
-        tox: "Increased PROT\nDecreased CREAT\nTubule degeneration, mild",
-        exp: "243 - 364 h*ng/mL"
-    },
-    {
-        tox: "None",
-        exp: "NA" 
-    }       
+const artemisTareOutputs = [
+    {artemisTare: "Decreased bodyweight\nDecreased food consumption\nIncreased ALT\nIncreased AST\nIncreased PROT\nIncreased ALB\nSmall intestine, inflammation, minimal"},
+    {artemisTare: "Increased ALT\nIncreased AST"},
+    {artemisTare: "None"}       
 ];       
-const GIOutputs = [
-    {
-        tox: "Small intestine, inflammation, minimal",
-        exp: "1670 - 2230 h*ng/mL"
-    },
-    {
-        tox: "Stomach, edema, mild\nStomach, distended",
-        exp: "876 - 983 h*ng/mL"
-    },
-    {
-        tox: "Large intestine, dark red\nLarge intestine, inflammation",
-        exp: "243 - 364 h*ng/mL"
-    },
-    {
-        tox: "None",
-        exp: "NA" 
-    }        
+const artemisAEsOutputs = [
+    {artemisAEs: "Increased PROT\nIncreased ALB"},
+    {artemisAEs: "Enlarged liver\nLiver weight increased\nIncreased ALP\nIncreased PROT\nDecreased CREAT\nTubule degeneration, mild\nLarge intestine, dark red\nLarge intestine, inflammation\nHeart rate increased, mild\nQT prolongation, mild"},
+    {artemisAEs: "None"}       
 ];       
-const cvOutputs = [
-    {
-        tox: "Heart, myocardium, inflammation, moderate\nHeart, enlarged",
-        exp: "1670 - 2230 h*ng/mL"
-    },
-    {
-        tox: "Heart, small\nHeart weight decreased",
-        exp: "876 - 983 h*ng/mL"
-    },
-    {
-        tox: "Heart rate increased, mild\nQT prolongation, mild",
-        exp: "243 - 364 h*ng/mL"
-    },
-    {
-        tox: "None",
-        exp: "NA" 
-    }          
+const comparatorOutputs = [
+    {comparator: "Study 95% accurate"},
+    {comparator: "Study 65% accurate"},
+    {comparator: "Study 25% accurate"}       
 ];  
 
 function getRandomPairFromArray(array) {
@@ -388,45 +341,35 @@ function getRandomPairFromArray(array) {
 
 function fetchData() {
     const spinner = document.querySelector('.spinner');
-    const generalTox = document.querySelector('#general-tox');
-    const generalExp = document.querySelector('#general-exp');
-    const liverTox = document.querySelector('#liver-tox');
-    const liverExp = document.querySelector('#liver-exp');
-    const kidneyTox = document.querySelector('#kidney-tox');
-    const kidneyExp = document.querySelector('#kidney-exp');
-    const GITox = document.querySelector('#GI-tox');
-    const GIExp = document.querySelector('#GI-exp');
-    const cvTox = document.querySelector('#cv-tox');
-    const cvExp = document.querySelector('#cv-exp');
+    const studyTare = document.querySelector('#studyTare');
+    const studyAEs = document.querySelector('#studyAEs');
+    const artemisTare = document.querySelector('#artemisTare');
+    const artemisAEs = document.querySelector('#artemisAEs');
+    const comparator = document.querySelector('#comparator');
 
        setTimeout(function() {
         spinner.style.display = 'none';
 
-        let generalPair = getRandomPairFromArray(generalOutputs);
-        generalTox.value = generalPair.tox;
-        generalExp.value = generalPair.exp;
+        let studyTarePair = getRandomPairFromArray(studyTareOutputs);
+        studyTare.value = studyTarePair.studyTare;
         
-        let liverPair = getRandomPairFromArray(liverOutputs);
-        liverTox.value = liverPair.tox;
-        liverExp.value = liverPair.exp;
+        let studyAEsPair = getRandomPairFromArray(studyAEsOutputs);
+        studyAEs.value = studyAEsPair.studyAEs;
 
-        let kidneyPair = getRandomPairFromArray(kidneyOutputs);
-        kidneyTox.value = kidneyPair.tox;
-        kidneyExp.value = kidneyPair.exp;
+        let artemisTarePair = getRandomPairFromArray(artemisTareOutputs);
+        artemisTare.value = artemisTarePair.artemisTare;
 
-        let GIPair = getRandomPairFromArray(GIOutputs);
-        GITox.value = GIPair.tox;
-        GIExp.value = GIPair.exp;
+        let artemisAEsPair = getRandomPairFromArray(artemisAEsOutputs);
+        artemisAEs.value = artemisAEsPair.artemisAEs;
 
-        let cvPair = getRandomPairFromArray(cvOutputs);
-        cvTox.value = cvPair.tox;
-        cvExp.value = cvPair.exp;
+        let comparatorPair = getRandomPairFromArray(comparatorOutputs);
+        comparator.value = comparatorPair.comparator;
         
     }, 3000);
 }
 
 function generateReport() {
-    const reportName = "Computational Prediction of Toxicity of ONC123"; // Hardcoded report name
+    const reportName = "28-day Repeat Dose Study of ONC123 by Oral Gavage in Rats"; // Hardcoded report name
     const reportContent = `
 Report Name: ${reportName}
 Report Number: MS20231
@@ -434,20 +377,15 @@ Company Name: OncoBio
 User Name: Jane Doe
 Date Generated: ${document.getElementById('current-date').textContent}
 
-\n•General Toxicity: \n${document.getElementById('general-tox').value}
-\nExposure Range: \n${document.getElementById('general-exp').value}
+\n•Study TA-related Effects: \n${document.getElementById('studyTare').value}
 
-\n•Liver Toxicity: \n${document.getElementById('liver-tox').value}
-\nExposure Range: \n${document.getElementById('liver-exp').value}
+\n•Study Adverse Effects: \n${document.getElementById('studyAEs').value}
 
-\n•Kidney Toxicity: \n${document.getElementById('kidney-tox').value}
-\nExposure Range: \n${document.getElementById('kidney-exp').value}
+\n•ARTEMIS™ TA-related Effects: \n${document.getElementById('artemisTare').value}
 
-\n•GI Toxicity: \n${document.getElementById('GI-tox').value}
-\nExposure Range: \n${document.getElementById('GI-exp').value}
+\n•ARTEMIS™ Adverse Effects: \n${document.getElementById('artemisAEs').value}
 
-\n•Cardiovascular Toxicity: \n${document.getElementById('cv-tox').value}
-\nExposure Range: \n${document.getElementById('cv-exp').value}
+\n•Comparator: \n${document.getElementById('comparator').value}
     `;
 
     // Convert content to blob and download
