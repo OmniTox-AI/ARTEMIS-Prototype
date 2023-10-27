@@ -20,7 +20,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 700px;
             margin:  auto;
             border: 1px solid #ccc;
             border-radius: 0px;
@@ -55,7 +55,7 @@
    	 	position: absolute;
    	 	top: -30px; /* Adjust this value as needed */
     	 	left: 20px;
-		width: 320px; 
+		width: 350px; 
 
         }
 
@@ -63,19 +63,18 @@
             max-width: 35%;
             height: auto;
             margin-bottom: 10px;
-	    margin-top: -40px;
+	    margin-top: -50px;
             display: block;
             margin-left: auto;
             margin-right: auto;
-    	    padding: 0px 0px 20px 0px;  /* top, right, bottom, left */
+    	    padding: 20px 0px 40px 0px;  /* top, right, bottom, left */
 
         }
 
         .output-box {
     		width: 100%;
-   		height: 65px;
-            	margin: 5px 0 20px 0; /* Adjusted margins */
-		margin-bottom: 20px;
+   		height: 175px;
+		margin-bottom: 0px;
     		border: none;
     		padding: 0;
     		box-sizing: border-box;
@@ -133,7 +132,7 @@
 
         .portal-button {
             display: block;
-            width: calc(100% - 30px);
+            width: calc(100%);
             padding: 15px;
             background-color: #28e3da;
             color: #0B0B0B;
@@ -164,40 +163,31 @@
     	
 	}
 
-.output-label.header-study {
-    color: #FD6262; /* Or use a specific shade of red you prefer */
-}
-
 .output-label.header-artemis {
-    color: #6A0058; /* Or use a specific shade of blue you prefer */
-}
-
-.output-label.header-comparator {
-    color: #1FC2C2; /* Or use a specific shade of purple you prefer */
+    color: #FD6262; /* Or use a specific shade of blue you prefer */
 }
 
     .portal-button {
- 	width: 250px;
+ 	width: 300px;
         margin: 0;  /* Reset the margin */
     
         }
 
-        .row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
+ .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px; /* Consistent bottom margin for each row */
+    }
 
-        .column {
-  		flex: 1; /* Adjusted flex property */
-   		padding: 0px;
-    		margin-left: 70px; /* Added margin to the left */
-    		margin-right: 70px; /* Added margin to the right */
-        }
+    .column {
+        flex: 1;
+        padding: 0 10px; /* Add horizontal padding */
+    }
 
         .output-label {
             display: block;
-            margin-top: 20px;
+            margin-top: 0px;
             font-weight: bold;
 	    color: #FD6262;
             width: 100%;
@@ -237,8 +227,9 @@
 
 	<div class="info-container">
     	<ul class="info-list">
-        	<li><strong>Report Name:</strong> 28-day Repeat Dose Study of ONC123 by Oral Gavage in Rats</li>
-        	<li><strong>Report Number:</strong> MS20231</li>
+        	<li><strong>Study Name:</strong> 28-day Repeat Dose Study of ONC123 by Oral Gavage in Rats</li>
+        	<li><strong>Study Number:</strong> MS20231</li>
+        	<li><strong>ARTEMIS™ Number:</strong> ART20231</li>
         	<li><strong>Sponsor Name:</strong> OncoBio</li>
         	<li><strong>User Name:</strong> Jane Doe</li>
         	<li><strong>Date Generated:</strong> <span id="current-date"></span></li>
@@ -251,27 +242,9 @@
         </div>
         <div class="spinner"></div>
 
-        <div class="row">
-            <div class="column">
-                <label class="output-label header-study">Study TA-related Effects</label>
-                <textarea class="output-box" id="studyTare" placeholder="Gathering test article-related effects from the study report..." readonly></textarea>
-           
- </div>
-
-        </div>
-
-        <div class="row">
-            <div class="column">
-                <label class="output-label header-study">Study Adverse Effects</label>
-                <textarea class="output-box" id="studyAEs" placeholder="Gathering adverse effects from the study report..." readonly></textarea>
-          
-  </div>
-
-        </div>
-
  <div class="row">
             <div class="column">
-                <label class="output-label header-artemis">ARTEMIS™ TA-related Effects</label>
+                <label class="output-label header-artemis">Analyzed TA-related Effects</label>
                 <textarea class="output-box" id="artemisTare" placeholder="Analyzing test article-related effects..." readonly></textarea>
          
    </div>
@@ -280,7 +253,7 @@
 
  <div class="row">
             <div class="column">
-                <label class="output-label header-artemis">ARTEMIS™ Adverse Effects</label>
+                <label class="output-label header-artemis">Analyzed Adverse Effects</label>
                 <textarea class="output-box" id="artemisAEs" placeholder="Analyzing adverse effects..." readonly></textarea>
            
  </div>
@@ -289,13 +262,12 @@
 
  <div class="row">
             <div class="column">
-                <label class="output-label header-comparator">Study-to-ARTEMIS™ Comparator</label>
-                <textarea class="output-box" id="comparator" placeholder="Analyzing accuracy of the study..." readonly></textarea>
+                <label class="output-label header-artemis">Confidence</label>
+                <textarea class="output-box" id="artemisCon" placeholder="Analyzing analysis confidence..." readonly></textarea>
            
  </div>
 
         </div>
-
 
     <div class="logo-img">
         <img src="logo.png" alt="Company Logo">
@@ -315,32 +287,19 @@
 
 
 const spinner = document.querySelector('.spinner');
-const studyTareOutputs = [
-    {studyTare: "Decreased bodyweight\nDecreased food consumption\nIncreased ALT\nIncreased AST\nIncreased PROT\nIncreased ALB\nSmall intestine, inflammation, minimal"},
-    {studyTare: "Eye discharge\nDecreased activity\nHeart, myocardium, inflammation, moderate\nHeart, enlarged"},
-    {studyTare: "None"}
-];     
-const studyAEsOutputs = [
-    {studyAEs: "Increased ALT\nIncreased AST"},
-    {studyAEs: "Decreased bodyweight\nPiloerection\nLethargy"},
-    {studyAEs: "Enlarged liver\nLiver weight increased\nIncreased ALP\nIncreased PROT\nDecreased CREAT\nTubule degeneration, mild\nLarge intestine, dark red\nLarge intestine, inflammation\nHeart rate increased, mild\nQT prolongation, mild"},
-    {studyAEs: "None"}     
-]; 
+
 const artemisTareOutputs = [
-    {artemisTare: "Decreased bodyweight\nDecreased food consumption\nIncreased ALT\nIncreased AST\nIncreased PROT\nIncreased ALB\nSmall intestine, inflammation, minimal"},
-    {artemisTare: "Increased ALT\nIncreased AST"},
-    {artemisTare: "None"}       
+    {artemisTare: "Decreased bodyweight\nDecreased food consumption\nIncreased serum ALT\nIncreased serum AST, mild\nSmall intestine, inflammation, minimal"},
+      
 ];       
 const artemisAEsOutputs = [
-    {artemisAEs: "Increased PROT\nIncreased ALB"},
-    {artemisAEs: "Enlarged liver\nLiver weight increased\nIncreased ALP\nIncreased PROT\nDecreased CREAT\nTubule degeneration, mild\nLarge intestine, dark red\nLarge intestine, inflammation\nHeart rate increased, mild\nQT prolongation, mild"},
-    {artemisAEs: "None"}       
-];       
-const comparatorOutputs = [
-    {comparator: "Study 95% accurate"},
-    {comparator: "Study 65% accurate"},
-    {comparator: "Study 25% accurate"}       
-];  
+    {artemisAEs: "Liver weight increased, moderate\nIncreased serum ALP, moderate\nDecreased urine CREAT, moderate\nTubule degeneration, mild\nQT prolongation, severe"},
+     
+];     
+const artemisConOutputs = [
+    {artemisCon: "82% Analysis Confidence"},
+     
+];         
 
 function getRandomPairFromArray(array) {
     return array[Math.floor(Math.random() * array.length)];
@@ -357,20 +316,14 @@ function fetchData() {
        setTimeout(function() {
         spinner.style.display = 'none';
 
-        let studyTarePair = getRandomPairFromArray(studyTareOutputs);
-        studyTare.value = studyTarePair.studyTare;
-        
-        let studyAEsPair = getRandomPairFromArray(studyAEsOutputs);
-        studyAEs.value = studyAEsPair.studyAEs;
-
         let artemisTarePair = getRandomPairFromArray(artemisTareOutputs);
         artemisTare.value = artemisTarePair.artemisTare;
 
         let artemisAEsPair = getRandomPairFromArray(artemisAEsOutputs);
         artemisAEs.value = artemisAEsPair.artemisAEs;
 
-        let comparatorPair = getRandomPairFromArray(comparatorOutputs);
-        comparator.value = comparatorPair.comparator;
+        let artemisConPair = getRandomPairFromArray(artemisConOutputs);
+        artemisCon.value = artemisConPair.artemisCon;
         
     }, 3000);
 }
@@ -388,20 +341,16 @@ Company Name: OncoBio
 User Name: Jane Doe
 Date Generated: ${document.getElementById('current-date').textContent}
 
-•Study TA-related Effects:
-${document.getElementById('studyTare').value}
-
-•Study Adverse Effects:
-${document.getElementById('studyAEs').value}
 
 •ARTEMIS™ TA-related Effects:
 ${document.getElementById('artemisTare').value}
 
-•ARTEMIS™ Adverse Effects:
+\n\n•ARTEMIS™ Adverse Effects:
 ${document.getElementById('artemisAEs').value}
 
-•Comparator:
-${document.getElementById('comparator').value}
+\n\n•Confidence:
+${document.getElementById('artemisCon').value}
+
     `;
 
     const reportHTMLContent = convertMarkdownToHTML(reportContent);
