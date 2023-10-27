@@ -8,6 +8,9 @@
     
     <!-- Link to Raleway Font from Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
     
     <style>
         body {
@@ -224,6 +227,8 @@
             adjustTextareaHeight(event.target);
         }
     });
+
+
 </script>
 
 </head>
@@ -232,8 +237,8 @@
 
 	<div class="info-container">
     	<ul class="info-list">
-        	<li><strong>Study Name:</strong> 28-day Repeat Dose Study of ONC123 by Oral Gavage in Rats</li>
-        	<li><strong>Study Number:</strong> MS20231</li>
+        	<li><strong>Report Name:</strong> 28-day Repeat Dose Study of ONC123 by Oral Gavage in Rats</li>
+        	<li><strong>Report Number:</strong> MS20231</li>
         	<li><strong>Sponsor Name:</strong> OncoBio</li>
         	<li><strong>User Name:</strong> Jane Doe</li>
         	<li><strong>Date Generated:</strong> <span id="current-date"></span></li>
@@ -303,7 +308,7 @@
         <a href="https://mimicry-solutions.github.io/ARTEMIS-Prototype/" class="portal-button">Return Home</a>
 
     </div>
-    
+
 </script>
 
 <script>
@@ -371,36 +376,52 @@ function fetchData() {
 }
 
 function generateReport() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
     const reportName = "28-day Repeat Dose Study of ONC123 by Oral Gavage in Rats"; // Hardcoded report name
     const reportContent = `
 Study Name: ${reportName}
 Study Number: MS20231
+ARTEMIS™ Report Number: ART20231
 Company Name: OncoBio
 User Name: Jane Doe
 Date Generated: ${document.getElementById('current-date').textContent}
 
-\n•Study TA-related Effects: \n${document.getElementById('studyTare').value}
+•Study TA-related Effects:
+${document.getElementById('studyTare').value}
 
-\n•Study Adverse Effects: \n${document.getElementById('studyAEs').value}
+•Study Adverse Effects:
+${document.getElementById('studyAEs').value}
 
-\n•ARTEMIS™ TA-related Effects: \n${document.getElementById('artemisTare').value}
+•ARTEMIS™ TA-related Effects:
+${document.getElementById('artemisTare').value}
 
-\n•ARTEMIS™ Adverse Effects: \n${document.getElementById('artemisAEs').value}
+•ARTEMIS™ Adverse Effects:
+${document.getElementById('artemisAEs').value}
 
-\n•Comparator: \n${document.getElementById('comparator').value}
+•Comparator:
+${document.getElementById('comparator').value}
     `;
 
-    // Convert content to blob and download
-    let blob = new Blob([reportContent], { type: "text/plain" });
-    let link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `${reportName}.txt`; 
-    link.click();
+    const reportHTMLContent = convertMarkdownToHTML(reportContent);
+
+    doc.text(reportContent, 10, 10);
+    doc.save(`${reportName}.pdf`);
+}
+
+function convertMarkdownToHTML(markdownText) {
+    // Convert bold text using Markdown syntax
+    let htmlText = markdownText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+
+    // Return the converted HTML
+    return htmlText;
 }
 
 
     fetchData();
     
+
 
 </script>
 
