@@ -73,7 +73,7 @@
 
         .output-box {
     		width: 100%;
-   		height: 175px;
+   		height: 100px;
 		margin-bottom: 0px;
     		border: none;
     		padding: 0;
@@ -244,30 +244,48 @@
 
  <div class="row">
             <div class="column">
-                <label class="output-label header-artemis">Human Projected TA-related Effects</label>
-                <textarea class="output-box" id="artemisTare" placeholder="Analyzing test article-related effects..." readonly></textarea>
-         
-   </div>
+                 <label class="output-label" for="general-tox">General Toxicity</label>
+                <textarea class="output-box" id="general-tox" placeholder="Analyzing general toxicity..." readonly></textarea>
+            </div>
+            <div class="column">
+                <label class="output-label" for="general-exp">Exposure Range</label>
+                <textarea class="output-box" id="general-exp" placeholder="Analyzing exposure range..." readonly></textarea>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="column">
+                <label class="output-label" for="liver-tox">Liver Toxicity</label>
+                <textarea class="output-box" id="liver-tox" placeholder="Analyzing liver toxicity..." readonly></textarea>
+            </div>
+            <div class="column">
+                <label class="output-label" for="liver-exp">Exposure Range</label>
+                <textarea class="output-box" id="liver-exp" placeholder="Analyzing exposure range..." readonly></textarea>
+            </div>
         </div>
 
  <div class="row">
             <div class="column">
-                <label class="output-label header-artemis">Human Projected Adverse Effects</label>
-                <textarea class="output-box" id="artemisAEs" placeholder="Analyzing adverse effects..." readonly></textarea>
-           
- </div>
-
+                <label class="output-label" for="kidney-tox">Kidney Toxicity</label>
+                <textarea class="output-box" id="kidney-tox" placeholder="Analyzing kidney toxicity..." readonly></textarea>
+            </div>
+            <div class="column">
+                <label class="output-label" for="kidney-exp">Exposure Range</label>
+                <textarea class="output-box" id="kidney-exp" placeholder="Analyzing exposure range..." readonly></textarea>
+            </div>
         </div>
 
  <div class="row">
             <div class="column">
-                <label class="output-label header-artemis">Confidence</label>
-                <textarea class="output-box" id="artemisCon" placeholder="Analyzing analysis confidence..." readonly></textarea>
-           
- </div>
-
+                <label class="output-label" for="GI-tox">GI Toxicity</label>
+                <textarea class="output-box" id="GI-tox" placeholder="Analyzing GI toxicity..." readonly></textarea>
+            </div>
+            <div class="column">
+                <label class="output-label" for="GI-exp">Exposure Range</label>
+                <textarea class="output-box" id="GI-exp" placeholder="Analyzing exposure range..." readonly></textarea>
+            </div>
         </div>
+
 
     <div class="logo-img">
         <img src="logo.png" alt="Company Logo">
@@ -288,18 +306,79 @@
 
 const spinner = document.querySelector('.spinner');
 
-const artemisTareOutputs = [
-    {artemisTare: "Decreased bodyweight\nDecreased food consumption\nIncreased serum ALT\nIncreased serum AST, mild\nSmall intestine, inflammation, minimal"},
-      
-];       
-const artemisAEsOutputs = [
-    {artemisAEs: "Liver weight increased, moderate\nIncreased serum ALP, moderate\nDecreased urine CREAT, moderate\nTubule degeneration, mild\nQT prolongation, severe"},
-     
+const generalOutputs = [
+    {
+        tox: "Decreased bodyweight\nDecreased food consumption",
+        exp: "267,000 - 323,000 ng/mL"
+    },
+    {
+        tox: "Decreased bodyweight\nPiloerection\nLethargy",
+        exp: "200,000 - 250,000 ng/mL"
+    },
+    {
+        tox: "Eye discharge\nDecreased activity",
+        exp: "144,000 - 167,000 ng/mL"
+    },
+    {
+        tox: "None",
+        exp: "NA" 
+    }
 ];     
-const artemisConOutputs = [
-    {artemisCon: "82% Analysis Confidence"},
+const liverOutputs = [
+    {
+        tox: "Increased serum ALT\nIncreased serum AST",
+        exp: "267,000 - 323,000 ng/mL"
+    },
+    {
+        tox: "Enlarged liver\nLiver weight increased\nIncreased serum ALP",
+        exp: "200,000 - 250,000 ng/mL"
+    },
+    {
+        tox: "Increased serum ALT\nIncreased serum BILI\nIncreased serum ALB",
+        exp: "144,000 - 167,000 ng/mL"
+    },
+    {
+        tox: "None",
+        exp: "NA" 
+    }     
+]; 
+const kidneyOutputs = [
+    {
+        tox: "Increased urine PROT\nIncreased urine ALB",
+        exp: "267,000 - 323,000 ng/mL"
+    },
+    {
+        tox: "Enlarged kidney\nKidney weight increased\nIncreased urine CREAT",
+        exp: "200,000 - 250,000 ng/mL"
+    },
+    {
+        tox: "Increased urine PROT\nIncreased urine CREAT\nTubule degeneration, mild",
+        exp: "144,000 - 167,000 ng/mL"
+    },
+    {
+        tox: "None",
+        exp: "NA" 
+    }       
+];       
+const GIOutputs = [
+    {
+        tox: "Small intestine, inflammation, minimal",
+        exp: "267,000 - 323,000 ng/mL"
+    },
+    {
+        tox: "Stomach, edema, mild\nStomach, distended",
+        exp: "200,000 - 250,000 ng/mL"
+    },
+    {
+        tox: "Large intestine, dark red\nLarge intestine, inflammation",
+        exp: "144,000 - 167,000 ng/mL"
+    },
+    {
+        tox: "None",
+        exp: "NA" 
+    }        
      
-];         
+];        
 
 function getRandomPairFromArray(array) {
     return array[Math.floor(Math.random() * array.length)];
@@ -307,23 +386,34 @@ function getRandomPairFromArray(array) {
 
 function fetchData() {
     const spinner = document.querySelector('.spinner');
-    const studyTare = document.querySelector('#studyTare');
-    const studyAEs = document.querySelector('#studyAEs');
-    const artemisTare = document.querySelector('#artemisTare');
-    const artemisAEs = document.querySelector('#artemisAEs');
-    const comparator = document.querySelector('#comparator');
+    const generalTox = document.querySelector('#general-tox');
+    const generalExp = document.querySelector('#general-exp');
+    const liverTox = document.querySelector('#liver-tox');
+    const liverExp = document.querySelector('#liver-exp');
+    const kidneyTox = document.querySelector('#kidney-tox');
+    const kidneyExp = document.querySelector('#kidney-exp');
+    const GITox = document.querySelector('#GI-tox');
+    const GIExp = document.querySelector('#GI-exp');
 
        setTimeout(function() {
         spinner.style.display = 'none';
 
-        let artemisTarePair = getRandomPairFromArray(artemisTareOutputs);
-        artemisTare.value = artemisTarePair.artemisTare;
+        let generalPair = getRandomPairFromArray(generalOutputs);
+        generalTox.value = generalPair.tox;
+        generalExp.value = generalPair.exp;
+        
+        let liverPair = getRandomPairFromArray(liverOutputs);
+        liverTox.value = liverPair.tox;
+        liverExp.value = liverPair.exp;
 
-        let artemisAEsPair = getRandomPairFromArray(artemisAEsOutputs);
-        artemisAEs.value = artemisAEsPair.artemisAEs;
+        let kidneyPair = getRandomPairFromArray(kidneyOutputs);
+        kidneyTox.value = kidneyPair.tox;
+        kidneyExp.value = kidneyPair.exp;
 
-        let artemisConPair = getRandomPairFromArray(artemisConOutputs);
-        artemisCon.value = artemisConPair.artemisCon;
+        let GIPair = getRandomPairFromArray(GIOutputs);
+        GITox.value = GIPair.tox;
+        GIExp.value = GIPair.exp;
+
         
     }, 3000);
 }
@@ -343,14 +433,17 @@ User Name: Jane Doe
 Date Generated: ${document.getElementById('current-date').textContent}
 
 
-•ARTEMIS™ Projected TA-related Effects:
-${document.getElementById('artemisTare').value}
+\n•General Toxicity: \n${document.getElementById('general-tox').value}
+\nExposure Range: \n${document.getElementById('general-exp').value}
 
-\n\n•ARTEMIS™ Projected Adverse Effects:
-${document.getElementById('artemisAEs').value}
+\n•Liver Toxicity: \n${document.getElementById('liver-tox').value}
+\nExposure Range: \n${document.getElementById('liver-exp').value}
 
-\n\n•Confidence:
-${document.getElementById('artemisCon').value}
+\n•Kidney Toxicity: \n${document.getElementById('kidney-tox').value}
+\nExposure Range: \n${document.getElementById('kidney-exp').value}
+
+\n•GI Toxicity: \n${document.getElementById('GI-tox').value}
+\nExposure Range: \n${document.getElementById('GI-exp').value}
 
     `;
 
