@@ -264,7 +264,7 @@
             </div>
         </div>
 
- <div class="row">
+	 <div class="row">
             <div class="column">
                 <label class="output-label" for="kidney-tox">Human Kidney Toxicity</label>
                 <textarea class="output-box" id="kidney-tox" placeholder="Analyzing kidney toxicity..." readonly></textarea>
@@ -275,7 +275,7 @@
             </div>
         </div>
 
- <div class="row">
+ 	<div class="row">
             <div class="column">
                 <label class="output-label" for="GI-tox">Human GI Toxicity</label>
                 <textarea class="output-box" id="GI-tox" placeholder="Analyzing GI toxicity..." readonly></textarea>
@@ -286,6 +286,12 @@
             </div>
         </div>
 
+	     	<div class="row">
+            <div class="column">
+                <label class="output-label" for="con-tox">Analysis Confidence</label>
+                <textarea class="output-box" id="con-tox" placeholder="Calculating confidence of analysis..." readonly></textarea>
+            </div>
+        </div>
 
     <div class="logo-img">
         <img src="logo.png" alt="Company Logo">
@@ -380,6 +386,22 @@ const GIOutputs = [
      
 ];        
 
+	const conOutputs = [
+    {
+        tox: "82%",
+    },
+    {
+        tox: "97%",
+    },
+    {
+        tox: "73%",
+    },
+    {
+        tox: "86%",
+    }        
+     
+];
+
 function getRandomPairFromArray(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
@@ -394,6 +416,8 @@ function fetchData() {
     const kidneyExp = document.querySelector('#kidney-exp');
     const GITox = document.querySelector('#GI-tox');
     const GIExp = document.querySelector('#GI-exp');
+    const conTox = document.querySelector('#con-tox');
+    const conExp = document.querySelector('#con-exp');
 
        setTimeout(function() {
         spinner.style.display = 'none';
@@ -414,7 +438,9 @@ function fetchData() {
         GITox.value = GIPair.tox;
         GIExp.value = GIPair.exp;
 
-        
+        let conPair = getRandomPairFromArray(conOutputs);
+        conTox.value = conPair.tox;
+	       
     }, 3000);
 }
 
@@ -445,6 +471,7 @@ Date Generated: ${document.getElementById('current-date').textContent}
 \n•Human GI Toxicity: \n${document.getElementById('GI-tox').value}
 \nExposure Range: \n${document.getElementById('GI-exp').value}
 
+\n•Analysis Confidence: \n${document.getElementById('con-tox').value}
     `;
 
     const reportHTMLContent = convertMarkdownToHTML(reportContent);
